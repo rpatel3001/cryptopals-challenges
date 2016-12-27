@@ -1,17 +1,37 @@
+package Prob3
+
 object SingleByteXOR {
     def main(args: Array[String]): Unit = {
         var str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
-        str = toASCII(str)
-        var results: collection.mutable.Map[Char, Double] = collection.mutable.Map()
-        for (char <- 'A' to 'z') {
-            var tmp = str
-            tmp = tmp.map(n => (n ^ char).toChar)
-            results += char -> score(tmp)
-        }
-        var sorted = results.toSeq.sortBy(_._2)
+        var res = decrypt(str)
         for(i <- 0 to 0) {
-            println(sorted(i) + " " + str.map(c => (c ^ sorted(i)._1).toChar))
+            println(res(i) + " " + toASCII(str).map(c => (c ^ res(i)._1).toChar))
         }
+    }
+
+    def decrypt(in: String): Seq[(Char, Double)] = {
+        var str = toASCII(in)
+        var results: collection.mutable.Map[Char, Double] = collection.mutable.Map()
+        for (char <- 32.toChar to 126.toChar) {
+            var tmp = str
+            tmp = charXOR(tmp, char)
+            if(isASCII(tmp))
+                results += char -> score(tmp)
+        }
+        results.toSeq.sortBy(_._2)
+    }
+
+    def isASCII(str: String): Boolean = {
+        for(char <- str) {
+            if (!(char == '\n' || char == '\r' || char == '\t' || char >= 32 && char <= 126)) {
+                return false
+            }
+        }
+        return true
+    }
+
+    def charXOR(str: String, char: Char): String = {
+        str.map(n => (n ^ char).toChar)
     }
 
     def hexval(char: Char): Int = {
@@ -29,8 +49,6 @@ object SingleByteXOR {
     def toASCII(str: String): String = {
         var ascii = new StringBuilder
         for (i <- 0 until str.length / 2) {
-            //println(str(i*2) + " " + str(i*2+1))
-            //println((hexval(str(i*2)) << 4) + " " + hexval(str(i*2+1)))
             ascii.append(((hexval(str(i*2)) << 4) + hexval(str(i*2+1))).toChar)
         }
         ascii.toString
@@ -77,7 +95,7 @@ object SingleByteXOR {
         err = Math.sqrt(err)
 
         for(i <- str) {
-            if (i != ' ' && (i < 'A' || i > 'z')) {
+            if (i != ' ' && !(i >= 'A' && i >= 'Z' || i >= 'a' &&  i <= 'z')) {
                 err += 1
             }
         }
