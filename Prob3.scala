@@ -1,22 +1,22 @@
+import Prob1.toASCII
+
 object Prob3 {
     def main(args: Array[String]): Unit = {
         var str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
         var res = decrypt(str)
-        for(i <- 0 to 0) {
-            println(res(i) + " " + toASCII(str).map(c => (c ^ res(i)._1).toChar))
-        }
+        println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
     }
 
-    def decrypt(in: String): Seq[(Char, Double)] = {
+    def decrypt(in: String): (Char, Double) = {
         var str = toASCII(in)
         var results: collection.mutable.Map[Char, Double] = collection.mutable.Map()
-        for (char <- 32.toChar to 126.toChar) {
+        for (char <- '0'.toChar to 'z'.toChar) {
             var tmp = str
             tmp = charXOR(tmp, char)
-            if(isASCII(tmp))
-                results += char -> score(tmp)
+            //if(isASCII(tmp))
+            results += char -> score(tmp)
         }
-        results.toSeq.sortBy(_._2)
+        results.toSeq.sortBy(_._2) apply 0
     }
 
     def isASCII(str: String): Boolean = {
@@ -30,26 +30,6 @@ object Prob3 {
 
     def charXOR(str: String, char: Char): String = {
         str.map(n => (n ^ char).toChar)
-    }
-
-    def hexval(char: Char): Int = {
-        if (char >= '0' && char <= '9') {
-            char - '0'
-        } else if (char >= 'a' && char <= 'f') {
-            char - 'a' + 10
-        } else if (char >= 'A' && char <= 'F') {
-            char - 'A' + 10
-        } else {
-            throw new RuntimeException
-        }
-    }
-
-    def toASCII(str: String): String = {
-        var ascii = new StringBuilder
-        for (i <- 0 until str.length / 2) {
-            ascii.append(((hexval(str(i*2)) << 4) + hexval(str(i*2+1))).toChar)
-        }
-        ascii.toString
     }
 
     var frequency = Map(' ' -> .13000,

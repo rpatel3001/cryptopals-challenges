@@ -1,4 +1,5 @@
 import Prob3._
+import Prob1.toASCII
 
 object Prob4 {
 	def main(args: Array[String]): Unit = {
@@ -6,15 +7,11 @@ object Prob4 {
 		var text = ""
 		for (line <- io.Source.fromFile("data4.txt").getLines()) {
 			var tmp = decrypt(line)
-			if(tmp.length > 0) {
-				for(t <- 0 to 0) {
-					if (tmp(t)._2 < min._2) {
-						min = tmp(t)
-						text = charXOR(toASCII(line), tmp(t)._1)
-					}
-				}
+			if (tmp._2 < min._2) {
+				min = tmp
+				text = charXOR(toASCII(line), tmp._1)
 			}
 		}
-		println(min + " " + text)
+		print("Prob 4: " + min + " " + text)
 	}
 }
