@@ -1,30 +1,31 @@
+import Prob2.xor
+
 object Prob3 {
     def main(args: Array[String]): Unit = {
-        var str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
+        var str = BigInt("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16).toByteArray
         var res = decrypt(str)
         println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
     }
 
-    def decrypt(in: String): (Char, Double) = {
-        var str = toASCII(in)
-        var results: collection.mutable.Map[Char, Double] = collection.mutable.Map()
-        for (char <- '0'.toChar to '9'.toChar) {
+    def decrypt(str: Array[Byte]): (Byte, Double) = {
+        var results: collection.mutable.Map[Byte, Double] = collection.mutable.Map()
+        for (char <- '0' to '9') {
             var tmp = str
-            tmp = charXOR(tmp, char)
+            tmp = keyXOR(tmp, Array(char.toByte))
             //if(isASCII(tmp))
-            results += char -> score(tmp)
+            results += char.toByte -> score(tmp)
         }
-        for (char <- 'A'.toChar to 'Z'.toChar) {
+        for (char <- 'A' to 'Z') {
             var tmp = str
-            tmp = charXOR(tmp, char)
+            tmp = keyXOR(tmp, Array(char.toByte))
             //if(isASCII(tmp))
-            results += char -> score(tmp)
+            results += char.toByte -> score(tmp)
         }
-        for (char <- 'a'.toChar to 'z'.toChar) {
+        for (char <- 'a' to 'z') {
             var tmp = str
-            tmp = charXOR(tmp, char)
+            tmp = keyXOR(tmp, Array(char.toByte))
             //if(isASCII(tmp))
-            results += char -> score(tmp)
+            results += char.toByte -> score(tmp)
         }
         results.toSeq.sortBy(_._2) apply 0
     }
@@ -36,6 +37,10 @@ object Prob3 {
             }
         }
         return true
+    }
+
+    def toASCII(raw: Array[Byte]): String = {
+    	raw.map(_.toChar).mkString
     }
 
     def hexval(char: Char): Int = {
@@ -50,47 +55,53 @@ object Prob3 {
         }
     }
 
-    def toASCII(str: String): String = {
-        var ascii = new StringBuilder
-        for (i <- 0 until str.length / 2) {
-            ascii.append(((hexval(str(i*2)) << 4) + hexval(str(i*2+1))).toChar)
-        }
-        ascii.toString
+    def charToHex(char: Char): String = {
+    	if (char < 0x10) {
+    		"0" + char.toHexString
+    	} else {
+    		char.toHexString
+    	}
     }
 
-    def charXOR(str: String, char: Char): String = {
-        str.map(n => (n ^ char).toChar)
-    }
+	def byteToHex(b: Byte): String = {
+		charToHex(b.toChar)
+	}
 
-    var frequency = Map(' ' -> .13000,
-                        'a' -> .08167,
-                        'b' -> .01492,
-                        'c' -> .02782,
-                        'd' -> .04253,
-                        'e' -> .12702,
-                        'f' -> .02228,
-                        'g' -> .02015,
-                        'h' -> .06094,
-                        'i' -> .06966,
-                        'j' -> .00153,
-                        'k' -> .00772,
-                        'l' -> .04025,
-                        'm' -> .02406,
-                        'n' -> .06749,
-                        'o' -> .07507,
-                        'p' -> .01929,
-                        'q' -> .00095,
-                        'r' -> .05987,
-                        's' -> .06327,
-                        't' -> .09056,
-                        'u' -> .02758,
-                        'v' -> .00978,
-                        'w' -> .02360,
-                        'x' -> .00150,
-                        'y' -> .01975,
-                        'z' -> .00074)
-    def score(s: String): Double = {
-        var str = s.map(c=> c.toLower)
+	def keyXOR(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
+		var len = str.length
+		var k = Array.fill(len/key.length + 1)(key).flatten.slice(0, len)
+		xor(str, k)
+	}
+
+    var frequency = Map(' ' -> .11504,
+                        'a' -> .07227,
+                        'b' -> .01320,
+                        'c' -> .02462,
+                        'd' -> .03764,
+                        'e' -> .11241,
+                        'f' -> .01972,
+                        'g' -> .01783,
+                        'h' -> .05393,
+                        'i' -> .06165,
+                        'j' -> .00135,
+                        'k' -> .00683,
+                        'l' -> .03562,
+                        'm' -> .02129,
+                        'n' -> .05973,
+                        'o' -> .06643,
+                        'p' -> .01707,
+                        'q' -> .00084,
+                        'r' -> .05298,
+                        's' -> .05599,
+                        't' -> .08014,
+                        'u' -> .02441,
+                        'v' -> .00865,
+                        'w' -> .02089,
+                        'x' -> .00133,
+                        'y' -> .01747,
+                        'z' -> .00065)
+    def score(i: Array[Byte]): Double = {
+        var str = i.map(_.toChar).map(c=> c.toLower)
         var freq = collection.mutable.Map(frequency.toSeq: _*)
         freq = freq.map(c => (c._1,c._2 * str.length))
         var err = 0.0
