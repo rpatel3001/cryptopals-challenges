@@ -1,4 +1,6 @@
-object HexTo64 {
+package Prob1
+
+object Prob1 {
 
   def main(args: Array[String]): Unit = {
     var hexstr = "49276d206b696c6c696e6720796f757220627261696e206c696b65206120706f69736f6e6f7573206d757368726f6f6d"

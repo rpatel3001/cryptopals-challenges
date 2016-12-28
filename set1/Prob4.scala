@@ -1,6 +1,8 @@
-import Prob3.SingleByteXOR._
+Package Prob4
 
-object DetectXOR {
+import Prob3.Prob3._
+
+object Prob4 {
 	def main(args: Array[String]): Unit = {
 		var min = (' ', 1000000.0)
 		var text = ""
