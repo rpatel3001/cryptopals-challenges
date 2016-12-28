@@ -4,7 +4,10 @@ from subprocess import run as ex
 
 def build(targets):
 	for t in targets:
-		ex(["scalac", "Prob%s.scala"%t])
+		if ex(["scalac", "Prob%s.scala"%t]).returncode != 0:
+			return False
+	return True
+
 
 def run(targets):
 	for t in targets:
@@ -25,7 +28,7 @@ if argv[1] == "run":
 elif argv[1] == "build":
 	build(targets)
 elif argv[1] == "buildrun":
-	build(targets)
-	run(targets)
+	if build(targets):
+		run(targets)
 else:
 	print("Unrecognized command. Use build or run followed by problems numbers.")

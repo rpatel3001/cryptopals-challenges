@@ -1,5 +1,4 @@
 import Prob3._
-import Prob1.toASCII
 
 object Prob4 {
 	def main(args: Array[String]): Unit = {
