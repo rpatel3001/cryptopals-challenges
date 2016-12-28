@@ -1,5 +1,3 @@
-package Prob3
-
 object Prob3 {
     def main(args: Array[String]): Unit = {
         var str = "1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736"
@@ -28,6 +26,10 @@ object Prob3 {
             }
         }
         return true
+    }
+
+    def charXOR(str: String, char: Char): String = {
+        str.map(n => (n ^ char).toChar)
     }
 
     def hexval(char: Char): Int = {

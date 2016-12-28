@@ -1,6 +1,4 @@
-Package Prob4
-
-import Prob3.Prob3._
+import Prob3._
 
 object Prob4 {
 	def main(args: Array[String]): Unit = {
