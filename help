@@ -1,0 +1,28 @@
+#!/usr/bin/python
+from sys import argv
+from subprocess import run as ex
+
+def build(targets):
+	for t in targets:
+		ex(["scalac", "Prob%s.scala"%t])
+
+def run(targets):
+	for t in targets:
+		ex(["scala", "Prob%s"%t])
+
+if argv[1] == "clean":
+	for i in range(64):
+		ex(["rm", "-rf", "Prob%d.class"%i])
+		ex(["rm", "-rf", "Prob%d$.class"%i])
+	exit()
+elif len(argv) < 3:
+	print("Missing problem numbers.")
+
+targets = argv[2:]
+
+if argv[1] == "run":
+	run(targets)
+elif argv[1] == "build":
+	build(targets)
+else:
+	print("Unrecognized command. Use build or run followed by problems numbers.")
