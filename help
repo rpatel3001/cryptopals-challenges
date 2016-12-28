@@ -24,5 +24,8 @@ if argv[1] == "run":
 	run(targets)
 elif argv[1] == "build":
 	build(targets)
+elif argv[1] == "buildrun":
+	build(targets)
+	run(targets)
 else:
 	print("Unrecognized command. Use build or run followed by problems numbers.")
