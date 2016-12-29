@@ -9,34 +9,22 @@ object Prob3 {
 
     def decrypt(str: Array[Byte]): (Byte, Double) = {
         var results: collection.mutable.Map[Byte, Double] = collection.mutable.Map()
-        for (char <- '0' to '9') {
+        for (char <- 32 to 126) {
             var tmp = str
             tmp = keyXOR(tmp, Array(char.toByte))
-            //if(isASCII(tmp))
             results += char.toByte -> score(tmp)
-        }
+        }/*
         for (char <- 'A' to 'Z') {
             var tmp = str
             tmp = keyXOR(tmp, Array(char.toByte))
-            //if(isASCII(tmp))
             results += char.toByte -> score(tmp)
         }
         for (char <- 'a' to 'z') {
             var tmp = str
             tmp = keyXOR(tmp, Array(char.toByte))
-            //if(isASCII(tmp))
             results += char.toByte -> score(tmp)
-        }
+        }*/
         results.toSeq.sortBy(_._2) apply 0
-    }
-
-    def isASCII(str: String): Boolean = {
-        for(char <- str) {
-            if (!(char == '\n' || char == '\r' || char == '\t' || char >= 32 && char <= 126)) {
-                return false
-            }
-        }
-        return true
     }
 
     def toASCII(raw: Array[Byte]): String = {
