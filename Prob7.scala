@@ -10,7 +10,7 @@ object Prob7 {
 		if(toASCII(AESdecode(bytes, "YELLOW SUBMARINE".getBytes)).slice(0,33) == "I'm back and I'm ringin' the bell") {
 			println("Prob 7: Success")
 		} else {
-			println("Prob 7: Success")
+			println("Prob 7: Fail")
 		}
 	}
 

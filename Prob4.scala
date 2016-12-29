@@ -12,6 +12,11 @@ object Prob4 {
 				text = toASCII(keyXOR(line, Array(tmp._1)))
 			}
 		}
-		print("Prob 4: " + min + " " + text)
+		//print("Prob 4: " + min + " " + text)
+		if(text == "Now that the party is jumping\n") {
+            println("Prob 4: Success")
+        } else {
+            println("Prob 4: Fail")
+        }
 	}
 }

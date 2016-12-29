@@ -1,10 +1,15 @@
-import Prob2.xor
+import Prob2._
 
 object Prob3 {
     def main(args: Array[String]): Unit = {
         var str = BigInt("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16).toByteArray
         var res = decrypt(str)
-        println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
+        //println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
+        if(toASCII(str).map(c => (c ^ res._1).toChar) == "Cooking MC's like a pound of bacon") {
+            println("Prob 3: Success")
+        } else {
+            println("Prob 3: Fail")
+        }
     }
 
     def decrypt(str: Array[Byte]): (Byte, Double) = {
@@ -13,47 +18,13 @@ object Prob3 {
             var tmp = str
             tmp = keyXOR(tmp, Array(char.toByte))
             results += char.toByte -> score(tmp)
-        }/*
-        for (char <- 'A' to 'Z') {
-            var tmp = str
-            tmp = keyXOR(tmp, Array(char.toByte))
-            results += char.toByte -> score(tmp)
         }
-        for (char <- 'a' to 'z') {
-            var tmp = str
-            tmp = keyXOR(tmp, Array(char.toByte))
-            results += char.toByte -> score(tmp)
-        }*/
         results.toSeq.sortBy(_._2) apply 0
     }
 
     def toASCII(raw: Array[Byte]): String = {
     	raw.map(_.toChar).mkString
     }
-
-    def hexval(char: Char): Int = {
-        if (char >= '0' && char <= '9') {
-            char - '0'
-        } else if (char >= 'a' && char <= 'f') {
-            char - 'a' + 10
-        } else if (char >= 'A' && char <= 'F') {
-            char - 'A' + 10
-        } else {
-            throw new RuntimeException
-        }
-    }
-
-    def charToHex(char: Char): String = {
-    	if (char < 0x10) {
-    		"0" + char.toHexString
-    	} else {
-    		char.toHexString
-    	}
-    }
-
-	def byteToHex(b: Byte): String = {
-		charToHex(b.toChar)
-	}
 
 	def keyXOR(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
 		var len = str.length

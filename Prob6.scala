@@ -65,11 +65,13 @@ object Prob6 {
         		text = toASCII(plain)
         	}
         }
-        println("Prob6: " + minscore + " " + toASCII(keytext))
-	}
+        //println("Prob 6: " + minscore + " " + toASCII(keytext))
 
-	def toHex(str: Array[Byte]): String = {
-		str.map(byteToHex).mkString
+        if(toASCII(keytext) == "Terminator X: Bring the noise") {
+            println("Prob 6: Success")
+        } else {
+            println("Prob 6: Fail")
+        }
 	}
 
 	def hamming(str1: Array[Byte], str2: Array[Byte]): Int = {
