@@ -1,11 +1,13 @@
 #!/usr/bin/python
+from os.path import isfile
 from sys import argv
 from subprocess import PIPE, STDOUT, run
 
 def build(targets):
 	for t in targets:
 		print("Building %s..."%t)
-		if ex(["scalac", "Prob%s.scala"%t]).returncode != 0:
+		proc = run(["scalac", "Prob%s.scala"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		if proc.returncode != 0:
 			return False
 	return True
 
@@ -21,7 +23,7 @@ def exe(targets):
 	return True
 
 if argv[1] == "clean":
-	for i in range(64):
+	for i in range(1, 64):
 		run(["rm", "-rf", "Prob%d.class"%i])
 		run(["rm", "-rf", "Prob%d$.class"%i])
 	exit(0)
@@ -29,6 +31,11 @@ elif len(argv) < 3:
 	print("Missing problem numbers.")
 
 targets = argv[2:]
+if targets[0] == "all":
+	targets = []
+	for i in range(1,64):
+		if isfile("Prob%d.scala"%i):
+			targets.append(i)
 
 if argv[1] == "run":
 	if not exe(targets):
