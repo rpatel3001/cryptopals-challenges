@@ -1,34 +1,44 @@
 #!/usr/bin/python
 from sys import argv
-from subprocess import run as ex
+from subprocess import PIPE, STDOUT, run
 
 def build(targets):
 	for t in targets:
+		print("Building %s..."%t)
 		if ex(["scalac", "Prob%s.scala"%t]).returncode != 0:
 			return False
 	return True
 
 
-def run(targets):
+def exe(targets):
+	print("Running...")
 	for t in targets:
-		ex(["scala", "Prob%s"%t])
+		proc = run(["scala", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		if proc.returncode == 0 and "Fail" not in proc.stdout:
+			print(proc.stdout, end='')
+		else:
+			return False
+	return True
 
 if argv[1] == "clean":
 	for i in range(64):
-		ex(["rm", "-rf", "Prob%d.class"%i])
-		ex(["rm", "-rf", "Prob%d$.class"%i])
-	exit()
+		run(["rm", "-rf", "Prob%d.class"%i])
+		run(["rm", "-rf", "Prob%d$.class"%i])
+	exit(0)
 elif len(argv) < 3:
 	print("Missing problem numbers.")
 
 targets = argv[2:]
 
 if argv[1] == "run":
-	run(targets)
+	if not exe(targets):
+		exit(1)
 elif argv[1] == "build":
-	build(targets)
+	if not build(targets):
+		exit(1)
 elif argv[1] == "buildrun":
-	if build(targets):
-		run(targets)
+	if not (build(targets) and exe(targets)):
+		exit(1)
 else:
 	print("Unrecognized command. Use build or run followed by problems numbers.")
+	exit(1)

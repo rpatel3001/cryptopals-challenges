@@ -10,8 +10,16 @@ object Prob2 {
         }
     }
 
-    def toHex(raw: Array[Byte]): String = {
-    	raw.map(_.toHexString).mkString
+    def toHex(str: Array[Byte]): String = {
+        str.map(byteToHex).mkString
+    }
+
+    def byteToHex(b: Byte): String = {
+        if (b < 0x10) {
+            "0" + b.toHexString
+        } else {
+            b.toHexString
+        }
     }
 
     def xor(val1: Array[Byte], val2: Array[Byte]): Array[Byte] = {
