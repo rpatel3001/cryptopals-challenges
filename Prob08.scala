@@ -3,14 +3,12 @@ import Prob03.toASCII
 object Prob08 {
 	def main(args: Array[String]): Unit = {
 		var lines = io.Source.fromFile("data8.txt").getLines
-		var maxdiff = 0
+		var maxident = 0
 		var ecb = ""
 		for(line <- lines) {
-			var blocks = line.grouped(16).toList.sorted
-			var blockset = blocks.toSet
-			var ident = blocks.size - blockset.size
-			if(ident > maxdiff) {
-				maxdiff = ident
+			var ident = detectECBRepeats(line.getBytes)
+			if(ident > maxident) {
+				maxident = ident
 				ecb = line
 			}
 		}
@@ -19,5 +17,10 @@ object Prob08 {
 		} else {
 			println("Prob 08: Fail")
 		}
+	}
+
+	def detectECBRepeats(str: Array[Byte]): Int = {
+		var blocks = str.grouped(16).toList.map(_.mkString)
+		blocks.size - blocks.toSet.size
 	}
 }
