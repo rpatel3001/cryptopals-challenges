@@ -10,8 +10,6 @@ def travis(targets):
 		print("Running %s..."%t)
 		proc = run(["target/start", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		print(proc.stdout)
-		if proc.returncode != 0 or "Prob %s: Success"%t not in proc.stdout:
-			return False
 	return True
 
 def build(targets):
@@ -27,7 +25,7 @@ def exe(targets):
 	print("Running...")
 	for t in targets:
 		proc = run(["sbt", "run"], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
-		if proc.returncode == 0 and "Prob %s: Success"%t in proc.stdout:
+		if proc.returncode == 0 and "Success" in proc.stdout:
 			print(proc.stdout)
 		else:
 			print(proc.stdout)
@@ -46,8 +44,12 @@ targets = argv[2:]
 if targets[0] == "all":
 	targets = []
 	for i in range(1,64):
-		if isfile("Prob%d.scala"%i):
-			targets.append(str(i))
+		j = str(i)
+		if len(j) == 1:
+			j = "0" + j
+		if isfile("Prob%s.scala"%j):
+			targets.append(j)
+	print("Running %d files"%len(targets))
 
 if argv[1] == "run":
 	if not exe(targets):

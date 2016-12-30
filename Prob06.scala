@@ -1,19 +1,19 @@
-import Prob2._
-import Prob3._
+import Prob02._
+import Prob03._
 import java.util.Base64
 
-object Prob6 {
+object Prob06 {
 	def main(args: Array[String]): Unit = {
 		var str1 = "this is a test".getBytes
 		var str2 = "wokka wokka!!!".getBytes
 		var out = hamming(str1, str2)
         if(out != 37) {
-          println("Prob 6: Fail")
+          println("Prob 06: Fail")
           return
         }
 
-        var base64 = io.Source.fromFile("data6.txt").filter(c => c != '\n').mkString
-		var bytes = Base64.getDecoder().decode(base64)
+        var base64 = io.Source.fromFile("data6.txt").mkString
+		var bytes = Base64.getMimeDecoder().decode(base64)
 
 		var editdist = collection.mutable.ListBuffer[(Int, Double)]()
         for(keysize <- 1 to 40) {
@@ -68,9 +68,9 @@ object Prob6 {
         //println("Prob 6: " + minscore + " " + toASCII(keytext))
 
         if(toASCII(keytext) == "Terminator X: Bring the noise") {
-            println("Prob 6: Success")
+            println("Prob 06: Success")
         } else {
-            println("Prob 6: Fail")
+            println("Prob 06: Fail")
         }
 	}
 

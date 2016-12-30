@@ -1,6 +1,6 @@
-import Prob3.toASCII
+import Prob03.toASCII
 
-object Prob8 {
+object Prob08 {
 	def main(args: Array[String]): Unit = {
 		var lines = io.Source.fromFile("data8.txt").getLines
 		var maxdiff = 0
@@ -15,9 +15,9 @@ object Prob8 {
 			}
 		}
 		if(ecb.slice(0,10) == "d880619740") {
-			println("Prob 8: Success")
+			println("Prob 08: Success")
 		} else {
-			println("Prob 8: Fail")
+			println("Prob 08: Fail")
 		}
 	}
 }

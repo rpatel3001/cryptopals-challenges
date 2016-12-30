@@ -1,6 +1,6 @@
-import Prob3._
+import Prob03._
 
-object Prob4 {
+object Prob04 {
 	def main(args: Array[String]): Unit = {
 		var min = (' '.toByte, 1000000.0)
 		var text = ""
@@ -14,9 +14,9 @@ object Prob4 {
 		}
 		//print("Prob 4: " + min + " " + text)
 		if(text == "Now that the party is jumping\n") {
-            println("Prob 4: Success")
+            println("Prob 04: Success")
         } else {
-            println("Prob 4: Fail")
+            println("Prob 04: Fail")
         }
 	}
 }
