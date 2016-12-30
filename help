@@ -6,19 +6,20 @@ from subprocess import PIPE, STDOUT, run
 def build(targets):
 	for t in targets:
 		print("Building %s..."%t)
-		proc = run(["/usr/bin/scalac", "Prob%s.scala"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		proc = run(["sbt", "compile"], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		print(proc.stdout)
 		if proc.returncode != 0:
 			return False
 	return True
 
-
 def exe(targets):
 	print("Running...")
 	for t in targets:
-		proc = run(["/usr/bin/scala", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
-		if proc.returncode == 0 and "Fail" not in proc.stdout:
-			print(proc.stdout, end='')
+		proc = run(["sbt", "run"], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		if proc.returncode == 0 and "Prob %s: Success"%t in proc.stdout:
+			print(proc.stdout)
 		else:
+			print(proc.stdout)
 			return False
 	return True
 
@@ -35,16 +36,13 @@ if targets[0] == "all":
 	targets = []
 	for i in range(1,64):
 		if isfile("Prob%d.scala"%i):
-			targets.append(i)
+			targets.append(str(i))
 
 if argv[1] == "run":
 	if not exe(targets):
 		exit(1)
 elif argv[1] == "build":
 	if not build(targets):
-		exit(1)
-elif argv[1] == "buildrun":
-	if not (build(targets) and exe(targets)):
 		exit(1)
 else:
 	print("Unrecognized command. Use build or run followed by problems numbers.")

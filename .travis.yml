@@ -10,4 +10,4 @@ language: scala
 scala:
   - 2.12.1
 
-script: ./help buildrun all
+script: ./help run all
