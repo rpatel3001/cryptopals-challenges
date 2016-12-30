@@ -11,9 +11,7 @@ object Prob11 {
 		for(i <- 0 to 100) {
 			var encr = randomEncrypt(data)
 			if(getAESMode(encr._1) != encr._2) {
-				println(getAESMode(encr._1) + " " + encr._2)
 				println("Prob 11: Fail")
-				println(i)
 				return
 			}
 		}
