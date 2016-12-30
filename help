@@ -6,7 +6,7 @@ from subprocess import PIPE, STDOUT, run
 def build(targets):
 	for t in targets:
 		print("Building %s..."%t)
-		proc = run(["scalac", "Prob%s.scala"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		proc = run(["/usr/bin/scalac", "Prob%s.scala"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		if proc.returncode != 0:
 			return False
 	return True
@@ -15,7 +15,7 @@ def build(targets):
 def exe(targets):
 	print("Running...")
 	for t in targets:
-		proc = run(["scala", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		proc = run(["/usr/bin/scala", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		if proc.returncode == 0 and "Fail" not in proc.stdout:
 			print(proc.stdout, end='')
 		else:
