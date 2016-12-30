@@ -1,6 +1,8 @@
 addons:
   apt:
-    packages:
+    sources:
+    - deadsnakes
+  packages:
     - python3.5
 
 language: scala
