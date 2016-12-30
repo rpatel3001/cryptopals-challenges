@@ -13,4 +13,4 @@ language: scala
 scala:
   - 2.12.1
 
-script: ./help run all
+script: ./help travis all

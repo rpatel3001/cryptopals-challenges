@@ -3,6 +3,17 @@ from os.path import isfile
 from sys import argv
 from subprocess import PIPE, STDOUT, run
 
+def travis(targets):
+	print("Building...")
+	run(["sbt", "start-script"])
+	for t in targets:
+		print("Running %s..."%t)
+		proc = run(["target/start", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		print(proc.stdout)
+		if proc.returncode != 0 or "Prob %s: Success"%t not in proc.stdout:
+			return False
+	return True
+
 def build(targets):
 	for t in targets:
 		print("Building %s..."%t)
@@ -43,6 +54,9 @@ if argv[1] == "run":
 		exit(1)
 elif argv[1] == "build":
 	if not build(targets):
+		exit(1)
+elif argv[1] == "travis":
+	if not travis(targets):
 		exit(1)
 else:
 	print("Unrecognized command. Use build or run followed by problems numbers.")
