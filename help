@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.5
 from os.path import isfile
 from sys import argv
 from subprocess import PIPE, STDOUT, run
