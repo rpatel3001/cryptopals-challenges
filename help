@@ -32,6 +32,16 @@ def exe(targets):
 			return False
 	return True
 
+def debug(targets):
+	print("Debugging...")
+	if not build(targets):
+		return False
+	for t in targets:
+		proc = run(["target/start", "Prob%s"%t])
+		if proc.returncode != 0:
+			return False
+	return True
+
 if argv[1] == "clean":
 	for i in range(1, 64):
 		run(["rm", "-rf", "Prob%d.class"%i])
@@ -56,6 +66,9 @@ if argv[1] == "run":
 		exit(1)
 elif argv[1] == "build":
 	if not build(targets):
+		exit(1)
+elif argv[1] == "debug":
+	if not debug(targets):
 		exit(1)
 elif argv[1] == "travis":
 	if not travis(targets):

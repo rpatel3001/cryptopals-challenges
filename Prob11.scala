@@ -3,7 +3,6 @@ import Prob03.toASCII
 import Prob08.detectECBRepeats
 import Prob07.decodeAESECB
 import Prob10._
-import java.util.Base64
 
 object Prob11 {
 	def main(args: Array[String]): Unit = {
@@ -19,7 +18,7 @@ object Prob11 {
 	}
 
 	def getAESMode(data: Array[Byte]): String = {
-		if(detectECBRepeats(data) > 1) {
+		if(detectECBRepeats(data) > 0) {
 			"ECB"
 		} else {
 			"CBC"
