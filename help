@@ -52,7 +52,7 @@ elif len(argv) < 3:
 
 pretargets = argv[2:]
 if pretargets[0] == "all":
-	pretargets = range(1,64).map(str)
+	pretargets = map(str, range(1,64))
 
 targets = []
 for j in pretargets:
