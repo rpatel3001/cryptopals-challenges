@@ -34,7 +34,8 @@ object Prob12 {
 				pad += 1
 			}
 		}
-		datasize -= pad + 1
+		pad += 1
+		datasize -= pad
 		while(known.size + currentblock.size < datasize) {
 			var testbytes = (("A" * (blocksize - 1 - currentblock.size)).getBytes).toArray
 			var predict = (0 to 256).map(c => (c.toByte, (testbytes ++ known ++currentblock :+ c.toByte)))
