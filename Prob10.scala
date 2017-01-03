@@ -5,16 +5,16 @@ import Prob02.xor
 import Prob03.toASCII
 import javax.crypto.Cipher
 import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.IvParameterSpec;
+import Prob15.unpadPKCS7
 
 object Prob10 {
 	def main(args: Array[String]) = {
-		var base64 = io.Source.fromFile("data10.txt").mkString
-		var bytes = Base64.getMimeDecoder().decode(base64)
-		var iv = Array.fill[Byte](16)(0)
-		var key = "YELLOW SUBMARINE".getBytes
-		var decoded = decodeAESCBC(bytes, key, iv)
-		var encoded = encodeAESCBC(decoded, key, iv)
+		val base64 = io.Source.fromFile("data10.txt").mkString
+		val bytes = Base64.getMimeDecoder().decode(base64)
+		val iv = Array.fill[Byte](16)(0)
+		val key = "YELLOW SUBMARINE".getBytes
+		val decoded = decodeAESCBC(bytes, key, iv)
+		val encoded = encodeAESCBC(decoded, key, iv)
 		if(toASCII(encoded) == toASCII(bytes) && toASCII(decoded).slice(0,33) == "I'm back and I'm ringin' the bell") {
 			println("Prob 10: Success")
 		} else {
@@ -22,13 +22,9 @@ object Prob10 {
 		}
 	}
 
-	def unpadPKCS7(str: Array[Byte]): Array[Byte] = {
-		str.dropRight(str.last.toInt)
-	}
-
 	def decodeAESCBC(str: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
-		var blocks = str.grouped(16).toArray
-		var out = collection.mutable.ArrayBuffer[Byte]()
+		val blocks = str.grouped(16).toArray
+		val out = collection.mutable.ArrayBuffer[Byte]()
 		out ++= xor(decodeAESECB(blocks(0), key), iv)
 		for(i <- 1 until blocks.size) {
 			out ++= xor(decodeAESECB(blocks(i), key), blocks(i-1))
@@ -37,12 +33,11 @@ object Prob10 {
 	}
 
 	def encodeAESCBC(str: Array[Byte], key: Array[Byte], iv: Array[Byte]): Array[Byte] = {
-		var blocks = padPKCS7(str, 16).grouped(16)
-		var out = collection.mutable.ArrayBuffer[Byte]()
+		val blocks = padPKCS7(str, 16).grouped(16)
+		val out = collection.mutable.ArrayBuffer[Byte]()
 		var prev = iv
 		for(block <- blocks) {
-			var b = xor(block, prev)
-			var o = encodeAESECB(b, key)
+			val o = encodeAESECB(xor(block, prev), key)
 			out ++= o
 			prev = o
 		}
@@ -50,7 +45,7 @@ object Prob10 {
 	}
 
 	def encodeAESECB(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
-		var cipher = Cipher.getInstance("AES/ECB/NoPadding")
+		val cipher = Cipher.getInstance("AES/ECB/NoPadding")
 		cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(key, "AES"))
 		cipher.doFinal(str)
 	}
