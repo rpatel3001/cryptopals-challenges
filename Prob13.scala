@@ -37,9 +37,12 @@ object Prob13 {
 		}
 		pad += 1
 		padding += "A" * pad
+
+		val encrequal = 
+
 		val blocks = encryptedUser(padding + "A"*blocksize*2).grouped(blocksize).zipWithIndex.map({case (v,i)=>(i,v.mkString)}).toArray
 		val blocknum = blocks.dropRight(1).filter({case (i, v) => v == blocks(i+1)._2})(0)._1
-		val inject = toASCII(padPKCS7("role=admin".getBytes, blocksize))
+		val inject = toASCII(padPKCS7("role admin".getBytes, blocksize))
 		val roleblock = encryptedUser(padding + inject).grouped(blocksize).toArray.apply(blocknum)
 		val profile = encryptedUser(padding + "A" * (blocksize + 1 - "role=user".size))
 		profile.dropRight(blocksize) ++ roleblock

@@ -15,7 +15,7 @@ object Prob10 {
 		val key = "YELLOW SUBMARINE".getBytes
 		val decoded = decodeAESCBC(bytes, key, iv)
 		val encoded = encodeAESCBC(decoded, key, iv)
-		if(toASCII(encoded) == toASCII(bytes) && toASCII(decoded).slice(0,33) == "I'm back and I'm ringin' the bell") {
+		if (toASCII(encoded) == toASCII(bytes) && toASCII(decoded).slice(0, 33) == "I'm back and I'm ringin' the bell") {
 			println("Prob 10: Success")
 		} else {
 			println("Prob 10: Fail")
@@ -26,8 +26,8 @@ object Prob10 {
 		val blocks = str.grouped(16).toArray
 		val out = collection.mutable.ArrayBuffer[Byte]()
 		out ++= xor(decodeAESECB(blocks(0), key), iv)
-		for(i <- 1 until blocks.size) {
-			out ++= xor(decodeAESECB(blocks(i), key), blocks(i-1))
+		for (i ← 1 until blocks.size) {
+			out ++= xor(decodeAESECB(blocks(i), key), blocks(i - 1))
 		}
 		unpadPKCS7(out.toArray)
 	}
@@ -36,7 +36,7 @@ object Prob10 {
 		val blocks = padPKCS7(str, 16).grouped(16)
 		val out = collection.mutable.ArrayBuffer[Byte]()
 		var prev = iv
-		for(block <- blocks) {
+		for (block ← blocks) {
 			val o = encodeAESECB(xor(block, prev), key)
 			out ++= o
 			prev = o
