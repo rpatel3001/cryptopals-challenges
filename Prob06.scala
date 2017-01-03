@@ -4,20 +4,20 @@ import java.util.Base64
 
 object Prob06 {
 	def main(args: Array[String]): Unit = {
-		var str1 = "this is a test".getBytes
-		var str2 = "wokka wokka!!!".getBytes
-		var out = hamming(str1, str2)
+		val str1 = "this is a test".getBytes
+		val str2 = "wokka wokka!!!".getBytes
+		val out = hamming(str1, str2)
         if(out != 37) {
           println("Prob 06: Fail")
           return
         }
 
-        var base64 = io.Source.fromFile("data6.txt").mkString
-		var bytes = Base64.getMimeDecoder().decode(base64)
+        val base64 = io.Source.fromFile("data6.txt").mkString
+		val bytes = Base64.getMimeDecoder().decode(base64)
 
 		var editdist = collection.mutable.ListBuffer[(Int, Double)]()
         for(keysize <- 1 to 40) {
-        	var blocks = collection.mutable.ListBuffer[Array[Byte]]()
+        	val blocks = collection.mutable.ListBuffer[Array[Byte]]()
         	for(i <- 0 until bytes.length / keysize) {
         		blocks += bytes.slice(keysize * i, keysize * i + keysize)
         	}
@@ -35,15 +35,15 @@ object Prob06 {
         var text = ""
         var minscore = 1000000.0
         for(key <- editdist) {
-        	var keysize = key._1
-        	var blocks = collection.mutable.ArrayBuffer[Array[Byte]]()
+        	val keysize = key._1
+        	val blocks = collection.mutable.ArrayBuffer[Array[Byte]]()
         	for(i <- 0 until bytes.length / keysize) {
         		blocks += bytes.slice(keysize * i, keysize * i + keysize)
         	}
 
-        	var trans = collection.mutable.ArrayBuffer[Array[Byte]]()
+        	val trans = collection.mutable.ArrayBuffer[Array[Byte]]()
         	for(i <- 0 until keysize) {
-        		var s = collection.mutable.ArrayBuffer[Byte]()
+        		val s = collection.mutable.ArrayBuffer[Byte]()
         		for(b <- blocks) {
         			if(i < b.length) {
         				s.append(b(i))
@@ -53,12 +53,12 @@ object Prob06 {
         	}
 
         	
-        	var k = (for (b <- trans) yield {
+        	val k = (for (b <- trans) yield {
         		decrypt(b)._1
         	}).slice(0, keysize).toArray
         	//println(toASCII(keytext))
-        	var plain = keyXOR(bytes, k)
-        	var s = score(plain)
+        	val plain = keyXOR(bytes, k)
+        	val s = score(plain)
         	if (s < minscore) {
         		keytext = k
         		minscore = s

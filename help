@@ -5,17 +5,20 @@ from subprocess import PIPE, STDOUT, run
 
 def travis(targets):
 	print("Building...")
-	run(["sbt", "start-script"])
+	if run(["sbt", "compile"]).returncode:
+		return False
 	for t in targets:
 		print("Running %s..."%t)
 		proc = run(["target/start", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		print(proc.stdout)
+		if proc.returncode or "Success" not in proc.stdout:
+			return False
 	return True
 
 def build(targets):
 	for t in targets:
 		print("Building %s..."%t)
-		proc = run(["sbt", "compile"], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		proc = run(["scalac", "-classpath", "target/scala-2.12/classes", "-d", "target/scala-2.12/classes", "Prob%s.scala"%t], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		print(proc.stdout)
 		if proc.returncode != 0:
 			return False
@@ -24,9 +27,9 @@ def build(targets):
 def exe(targets):
 	print("Running...")
 	for t in targets:
-		proc = run(["sbt", "run"], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+		proc = run(["scala", "-classpath", "target/scala-2.12/classes", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 		if proc.returncode == 0 and "Success" in proc.stdout:
-			print(proc.stdout)
+			print(proc.stdout, end="")
 		else:
 			print(proc.stdout)
 			return False
@@ -74,5 +77,6 @@ elif argv[1] == "travis":
 	if not travis(targets):
 		exit(1)
 else:
-	print("Unrecognized command. Use build or run followed by problems numbers.")
+	print("Unrecognized command. Use build, debug, or run followed by problems numbers.")
 	exit(1)
+exit(0)

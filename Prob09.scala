@@ -1,8 +1,8 @@
 object Prob09 {
 	def main(args: Array[String]) = {
-		var orig = "YELLOW SUBMARINE".getBytes
-		var ans = orig ++ Array.fill[Byte](4)(4)
-		var out = padPKCS7(orig, 20)
+		val orig = "YELLOW SUBMARINE".getBytes
+		val ans = orig ++ Array.fill[Byte](4)(4)
+		val out = padPKCS7(orig, 20)
 		if(out.mkString == ans.mkString) {
 			println("Prob 09: Success")
 		} else {
@@ -11,7 +11,7 @@ object Prob09 {
 	}
 
 	def padPKCS7(str: Array[Byte], size: Int): Array[Byte] = {
-		var pad = size - str.size % size
+		val pad = size - str.size % size
 		str ++ (pad.toChar.toString * pad).getBytes
 	}
 }

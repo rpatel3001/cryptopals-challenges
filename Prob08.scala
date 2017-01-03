@@ -2,7 +2,7 @@ import Prob03.toASCII
 
 object Prob08 {
 	def main(args: Array[String]): Unit = {
-		var lines = io.Source.fromFile("data8.txt").getLines
+		val lines = io.Source.fromFile("data8.txt").getLines
 		var maxident = 0
 		var ecb = ""
 		for(line <- lines) {
@@ -20,7 +20,7 @@ object Prob08 {
 	}
 
 	def detectECBRepeats(str: Array[Byte]): Int = {
-		var blocks = str.grouped(16).toList.map(_.mkString)
+		val blocks = str.grouped(16).toList.map(_.mkString)
 		blocks.size - blocks.toSet.size
 	}
 }

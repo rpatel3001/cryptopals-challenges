@@ -2,8 +2,8 @@ import Prob02._
 
 object Prob03 {
     def main(args: Array[String]): Unit = {
-        var str = BigInt("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16).toByteArray
-        var res = decrypt(str)
+        val str = BigInt("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16).toByteArray
+        val res = decrypt(str)
         //println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
         if(toASCII(str).map(c => (c ^ res._1).toChar) == "Cooking MC's like a pound of bacon") {
             println("Prob 03: Success")
@@ -13,7 +13,7 @@ object Prob03 {
     }
 
     def decrypt(str: Array[Byte]): (Byte, Double) = {
-        var results: collection.mutable.Map[Byte, Double] = collection.mutable.Map()
+        val results: collection.mutable.Map[Byte, Double] = collection.mutable.Map()
         for (char <- 32 to 126) {
             var tmp = str
             tmp = keyXOR(tmp, Array(char.toByte))
@@ -27,12 +27,12 @@ object Prob03 {
     }
 
 	def keyXOR(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
-		var len = str.length
-		var k = Array.fill(len/key.length + 1)(key).flatten.slice(0, len)
+		val len = str.length
+		val k = Array.fill(len/key.length + 1)(key).flatten.slice(0, len)
 		xor(str, k)
 	}
 
-    var frequency = Map(' ' -> .11504,
+    val frequency = Map(' ' -> .11504,
                         'a' -> .07227,
                         'b' -> .01320,
                         'c' -> .02462,
@@ -60,7 +60,7 @@ object Prob03 {
                         'y' -> .01747,
                         'z' -> .00065)
     def score(i: Array[Byte]): Double = {
-        var str = i.map(_.toChar).map(c=> c.toLower)
+        val str = i.map(_.toChar).map(c=> c.toLower)
         var freq = collection.mutable.Map(frequency.toSeq: _*)
         freq = freq.map(c => (c._1,c._2 * str.length))
         var err = 0.0

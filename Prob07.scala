@@ -5,8 +5,8 @@ import Prob03.toASCII
 
 object Prob07 {
 	def main(args: Array[String]): Unit = {
-		var base64 = io.Source.fromFile("data7.txt").mkString
-		var bytes = Base64.getMimeDecoder().decode(base64)
+		val base64 = io.Source.fromFile("data7.txt").mkString
+		val bytes = Base64.getMimeDecoder().decode(base64)
 		if(toASCII(decodeAESECB(bytes, "YELLOW SUBMARINE".getBytes)).slice(0,33) == "I'm back and I'm ringin' the bell") {
 			println("Prob 07: Success")
 		} else {
@@ -15,7 +15,7 @@ object Prob07 {
 	}
 
 	def decodeAESECB(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
-		var cipher = Cipher.getInstance("AES/ECB/NoPadding")
+		val cipher = Cipher.getInstance("AES/ECB/NoPadding")
 		cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"))
 		cipher.doFinal(str)
 	}
