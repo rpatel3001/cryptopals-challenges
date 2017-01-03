@@ -6,8 +6,8 @@ from subprocess import PIPE, STDOUT, run
 def travis(targets):
 	print("Building...")
 	if run(["sbt", "compile"]).returncode:
-	if run(["sbt", "start-script"]).returncode:
-		return False
+		return False		
+	run(["sbt", "start-script"])
 	for t in targets:
 		print("Running %s..."%t)
 		proc = run(["target/start", "Prob%s"%t], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
