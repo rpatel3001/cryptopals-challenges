@@ -60,7 +60,7 @@ object Prob13 {
 	}
 
 	def profile_for(email: String): String = {
-		val sanitized = email.filter(_ != "&").filter(_ != "=").mkString
+		val sanitized = email.filter(_ != '&').filter(_ != '=').mkString
 		Map("email" -> sanitized, "uid" -> "10", "role" -> "user").map(_.productIterator.mkString("=")).mkString("&")
 	}
 }
