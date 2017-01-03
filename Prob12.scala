@@ -38,7 +38,7 @@ object Prob12 {
 		datasize -= pad
 		while(known.size + currentblock.size < datasize) {
 			var testbytes = (("A" * (blocksize - 1 - currentblock.size)).getBytes).toArray
-			var predict = (0 to 256).map(c => (c.toByte, (testbytes ++ known ++currentblock :+ c.toByte)))
+			var predict = (0 to 256).map(c => (c.toByte, (testbytes ++ known ++ currentblock :+ c.toByte)))
 			var dict = predict.map(c => (c._1, unknownKeyECB(c._2).slice(0, known.size + blocksize)))
 			var encr = unknownKeyECB(testbytes).slice(0, known.size + blocksize)
 			var char = dict.filter(_._2.mkString == encr.mkString).apply(0)
