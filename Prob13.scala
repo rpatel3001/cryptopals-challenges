@@ -11,13 +11,13 @@ object Prob13 {
 		val test1ans = Map("foo" -> "bar", "baz" -> "qux", "zap" -> "zazzle")
 		val test2 = "foo@bar.com"
 		val test2ans = "email=foo@bar.com&uid=10&role=user"
-		if(keyval(test1) != test1ans || profile_for(test2) != test2ans) {
+		if (keyval(test1) != test1ans || profile_for(test2) != test2ans) {
 			println("Prob 13: Fail")
 			return
 		}
 		val encradmin = makeAdminProfile
 		val adminprofile = decryptUser(encradmin)
-		if(adminprofile("role") == "admin") {
+		if (adminprofile("role") == "admin") {
 			println("Prob 13: Success")
 		} else {
 			println("Prob 13: Fail")
@@ -29,22 +29,20 @@ object Prob13 {
 		val datasize = encryptedUser("").length
 		val blocksize = 16
 		var pad = 0
-		for(i <- 0 to 16) {
+		for (i ← 0 to 16) {
 			val len = encryptedUser("A" * i).length
-			if(len == datasize) {
+			if (len == datasize) {
 				pad += 1
 			}
 		}
 		pad += 1
 		padding += "A" * pad
 
-		val encrequal = 
-
-		val blocks = encryptedUser(padding + "A"*blocksize*2).grouped(blocksize).zipWithIndex.map({case (v,i)=>(i,v.mkString)}).toArray
-		val blocknum = blocks.dropRight(1).filter({case (i, v) => v == blocks(i+1)._2})(0)._1
-		val inject = toASCII(padPKCS7("role admin".getBytes, blocksize))
+		val blocks = encryptedUser(padding + "A" * blocksize * 2).grouped(blocksize).zipWithIndex.map({ case (v, i) ⇒ (i, v.mkString) }).toArray
+		val blocknum = blocks.dropRight(1).filter({ case (i, v) ⇒ v == blocks(i + 1)._2 })(0)._1
+		val inject = toASCII(padPKCS7("admin".getBytes, blocksize))
 		val roleblock = encryptedUser(padding + inject).grouped(blocksize).toArray.apply(blocknum)
-		val profile = encryptedUser(padding + "A" * (blocksize + 1 - "role=user".size))
+		val profile = encryptedUser(padding + "B" * ("user".size - 1))
 		profile.dropRight(blocksize) ++ roleblock
 	}
 
@@ -59,7 +57,7 @@ object Prob13 {
 	}
 
 	def keyval(str: String): Map[String, String] = {
-		str.split("&").map(_.split("=")).collect({ case Array(a, b) => (a, b) }).toMap
+		str.split("&").map(_.split("=")).collect({ case Array(a, b) ⇒ (a, b) }).toMap
 	}
 
 	def profile_for(email: String): String = {
