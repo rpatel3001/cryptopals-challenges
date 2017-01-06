@@ -2,8 +2,6 @@ import Prob11.keygen
 import Prob10.encodeAESCBC
 import Prob10.decodeAESCBC
 import Prob03.toASCII
-import Prob09.padPKCS7
-import Prob15.unpadPKCS7
 import Prob03.toASCII
 
 object Prob16 {
@@ -59,11 +57,11 @@ object Prob16 {
 	def encrypt(data: Array[Byte]): Array[Byte] = {
 		val pre = "comment1=cooking%20MCs;userdata=".getBytes
 		val post = ";comment2=%20like%20a%20pound%20of%20bacon".getBytes
-		encodeAESCBC(padPKCS7(pre ++ data.filter(c ⇒ c != ';' && c != '=') ++ post, 16), globalkey, iv)
+		encodeAESCBC(pre ++ data.filter(c ⇒ c != ';' && c != '=') ++ post, globalkey, iv)
 	}
 
 	def isAdmin(str: Array[Byte]): Boolean = {
-		val decr = toASCII(unpadPKCS7(decodeAESCBC(str, globalkey, iv))).split(";").map(_.split("=")).collect({ case Array(a, b) ⇒ (a, b) }).toMap
+		val decr = toASCII((decodeAESCBC(str, globalkey, iv))).split(";").map(_.split("=")).collect({ case Array(a, b) ⇒ (a, b) }).toMap
 		decr.contains("admin") && decr("admin") == "true"
 	}
 }

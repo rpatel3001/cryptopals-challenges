@@ -30,7 +30,7 @@ object Prob15 {
 	def unpadPKCS7(str: Array[Byte]): Array[Byte] = {
 		val pad = str.last
 		val padding = str.reverse.slice(0, pad)
-		if (padding.count(_ != pad) > 0) {
+		if (padding.size != pad || padding.count(_ != pad) > 0) {
 			throw new RuntimeException("bad padding")
 		}
 		str.dropRight(pad)
