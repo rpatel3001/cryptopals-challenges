@@ -1,7 +1,6 @@
 import java.util.Base64
 import Prob10.encodeAESECB
 import Prob02.xor
-import Prob03.toASCII
 
 object Prob18 {
   def main(args: Array[String]): Unit = {
