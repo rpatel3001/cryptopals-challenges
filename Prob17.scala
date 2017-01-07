@@ -6,11 +6,11 @@ import java.util.Base64
 
 object Prob17 {
   def main(args: Array[String]): Unit = {
-  	val ans = Base64.getEncoder.encodeToString(breakCBC)
+    val ans = Base64.getEncoder.encodeToString(breakCBC)
     if (strings.count(_ == ans) == 1) {
       println("Prob 17: Success")
     } else {
-    	println(ans)
+      println(ans)
       println("Prob 17: Fail")
       return
     }

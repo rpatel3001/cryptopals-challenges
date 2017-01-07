@@ -24,7 +24,7 @@ object Prob02 {
 
   def xor(val1: Array[Byte], val2: Array[Byte]): Array[Byte] = {
     val ret = collection.mutable.ArrayBuffer[Byte]()
-    for (i ← 0 until val1.length) {
+    for (i ← 0 until Math.min(val1.size, val2.size)) {
       ret.append((val1(i) ^ val2(i)).toByte)
     }
     ret.toArray
