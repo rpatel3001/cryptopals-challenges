@@ -6,10 +6,13 @@ import java.util.Base64
 
 object Prob17 {
   def main(args: Array[String]): Unit = {
-    if (strings.count(_ == Base64.getEncoder.encodeToString(breakCBC)) == 1) {
+  	val ans = Base64.getEncoder.encodeToString(breakCBC)
+    if (strings.count(_ == ans) == 1) {
       println("Prob 17: Success")
     } else {
+    	println(ans)
       println("Prob 17: Fail")
+      return
     }
   }
 
