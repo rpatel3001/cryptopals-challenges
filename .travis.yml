@@ -13,4 +13,4 @@ language: scala
 scala:
   - 2.12.1
 
-script: python3 help travis all
+script: python3.5 help travis all
