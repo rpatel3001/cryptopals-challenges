@@ -14,7 +14,7 @@ object Prob19 {
       var max = 0
       var char = 0.toByte
       for (c ← 0 to 255) {
-        val count = strings.map(xor(keystream.updated(i, c.toByte), _)).map(_.applyOrElse(i, {c: Int => 0.toByte})).count(_ == ' ')
+        val count = strings.map(xor(keystream.updated(i, c.toByte), _)).map(_.applyOrElse(i, { c: Int ⇒ 0.toByte })).count(_ == ' ')
         if (count > max) {
           max = count
           char = c.toByte

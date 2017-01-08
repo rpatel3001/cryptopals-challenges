@@ -4,7 +4,7 @@ object Prob03 {
   def main(args: Array[String]): Unit = {
     val str = BigInt("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736", 16).toByteArray
     val res = decrypt(str)
-    //println("Prob 3: " + res + " " + toASCII(str).map(c => (c ^ res._1).toChar))
+    //println("Prob 3: " + res + " " + toASCII(str).map(c ⇒ (c ^ res._1).toChar))
     if (toASCII(str).map(c ⇒ (c ^ res._1).toChar) == "Cooking MC's like a pound of bacon") {
       println("Prob 03: Success")
     } else {
@@ -14,12 +14,12 @@ object Prob03 {
 
   def decrypt(str: Array[Byte]): (Byte, Double) = {
     val results: collection.mutable.Map[Byte, Double] = collection.mutable.Map()
-    for (char ← 32 to 126) {
+    for (char ← 0 to 255) {
       var tmp = str
       tmp = keyXOR(tmp, Array(char.toByte))
       results += char.toByte -> score(tmp)
     }
-    results.toSeq.sortBy(_._2) apply 0
+    results.toSeq.sortBy(_._2).head
   }
 
   def toASCII(raw: Array[Byte]): String = {
@@ -74,8 +74,11 @@ object Prob03 {
     err = Math.sqrt(err)
 
     for (i ← str) {
-      if (i != ' ' && !(i >= 'A' && i >= 'Z' || i >= 'a' && i <= 'z')) {
-        err += 1
+      if (i != ' ' && !(i >= 'A' && i <= 'Z' || i >= 'a' && i <= 'z')) {
+        err += 20
+      }
+      if (i > 126 || i < 32) {
+        err += 100
       }
     }
     err
