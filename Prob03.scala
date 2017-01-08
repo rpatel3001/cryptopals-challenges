@@ -32,7 +32,7 @@ object Prob03 {
     xor(str, k)
   }
 
-  val frequency = Map(
+  val frequency = Array(
     ' ' -> .11504,
     'a' -> .07227,
     'b' -> .01320,
@@ -59,7 +59,7 @@ object Prob03 {
     'w' -> .02089,
     'x' -> .00133,
     'y' -> .01747,
-    'z' -> .00065)
+    'z' -> .00065).sortBy(_._2).reverse
   def score(i: Array[Byte]): Double = {
     val str = i.map(_.toChar).map(c ⇒ c.toLower)
     var freq = collection.mutable.Map(frequency.toSeq: _*)
