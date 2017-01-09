@@ -1,9 +1,11 @@
 object Prob21 {
   def main(args: Array[String]): Unit = {
     seed(1)
-    val out = (rand, rand, rand, rand, rand)
+    val out1 = (rand, rand, rand, rand, rand)
+    seed(1)
+    val out2 = (rand, rand, rand, rand, rand)
     val ans = (1791095845, -12091157, -1201197172, -289663928, 491263)
-    if (out == ans) {
+    if (out1 == out2 && out1 == ans) {
       println("Prob 21: Success")
     } else {
       println("Prob 21: Fail")
