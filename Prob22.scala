@@ -14,9 +14,10 @@ object Prob22 {
   }
 
   def crackSeed(num: Int, time: Int): Int = {
+    val rng = new MT19937
     for (t ← 0 to 3000) {
-      seed(time - t)
-      if (num == rand) {
+      rng.seed(time - t)
+      if (num == rng.rand) {
         return time - t
       }
     }
@@ -24,10 +25,11 @@ object Prob22 {
   }
 
   def timeSeedRand(): (Int, Int, Int) = {
+    val rng = new MT19937
     val time = (System.currentTimeMillis / 1000).toInt
     val delay1 = (util.Random.nextInt(1000 - 40) + 40)
     val delay2 = (util.Random.nextInt(1000 - 40) + 40)
-    seed(time + delay1)
-    (rand, time + delay1, time + delay1 + delay2)
+    rng.seed(time + delay1)
+    (rng.rand, time + delay1, time + delay1 + delay2)
   }
 }
