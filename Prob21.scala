@@ -1,12 +1,9 @@
 object Prob21 {
   def main(args: Array[String]): Unit = {
-    val rng = new MT19937
-    rng.seed(1)
-    val out1 = (1 to 5).map(c => rng.rand).toList
-    rng.seed(1)
-    val out2 = (1 to 5).map(c => rng.rand).toList
-    val ans = List(1791095845, -12091157, -1201197172, -289663928, 491263)
-    if (out1 == out2 && out1 == ans) {
+    val rng1 = new MT19937(1)
+    val rng2 = new MT19937(1)
+    val ans = io.Source.fromFile("data23.txt").getLines.map(c => c.toLong.toBinaryString.takeRight(32))
+    if (ans.map(c => c == rng1.rand.toBinaryString.takeRight(32) && c == rng2.rand.toBinaryString.takeRight(32)).count(_ == false) == 0) {
       println("Prob 21: Success")
     } else {
       println("Prob 21: Fail")
@@ -30,8 +27,13 @@ class MT19937 {
   val MASK_UPPER = 1 << R
   val MASK_LOWER = ~MASK_UPPER & D
 
-  val mt = Array.fill[Int](N)(0)
+  var mt = Array.fill[Int](N)(0)
   var index = N + 1
+
+  def this(s: Int) = {
+    this
+    seed(s)
+  }
 
   def seed(seed: Int): Unit = {
     mt(0) = seed
@@ -45,6 +47,7 @@ class MT19937 {
     if (index == N + 1) {
       seed(5489)
     }
+
     if (index == N) {
       for (i ← 0 until N) {
         val x = (mt(i) & MASK_UPPER) | (mt((i + 1) % N) & MASK_LOWER)
@@ -52,14 +55,13 @@ class MT19937 {
         if ((x & 1) == 1) {
           xA ^= A
         }
-
         mt.update(i, (mt((i + M) % N) ^ xA) & D)
       }
       index = 0;
     }
 
     var y = mt(index)
-    y = y ^ (mt(index) >>> U)
+    y = y ^ (y >>> U)
     y = y ^ (y << S) & B
     y = y ^ (y << T) & C
     y = y ^ (y >>> L)
