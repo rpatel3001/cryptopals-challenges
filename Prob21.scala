@@ -2,7 +2,7 @@ object Prob21 {
   def main(args: Array[String]): Unit = {
     val rng1 = new MT19937(1)
     val rng2 = new MT19937(1)
-    val ans = io.Source.fromFile("data23.txt").getLines.map(c => c.toLong.toBinaryString.takeRight(32))
+    val ans = io.Source.fromFile("data21.txt").getLines.map(c => c.toLong.toBinaryString.takeRight(32))
     if (ans.map(c => c == rng1.rand.toBinaryString.takeRight(32) && c == rng2.rand.toBinaryString.takeRight(32)).count(_ == false) == 0) {
       println("Prob 21: Success")
     } else {
