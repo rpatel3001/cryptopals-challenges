@@ -17,6 +17,7 @@ def travis(targets):
 	return True
 
 def build(targets):
+	proc = run(["scalac", "-classpath", "target/scala-2.12/classes", "-d", "target/scala-2.12/classes", "Util.scala"], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 	for t in targets:
 		print("Building %s..."%t)
 		proc = run(["scalac", "-classpath", "target/scala-2.12/classes", "-d", "target/scala-2.12/classes", "Prob%s.scala"%t], input=t+"\n", stdout=PIPE, stderr=STDOUT, universal_newlines=True)
@@ -64,8 +65,6 @@ for j in pretargets:
 		j = "0" + j
 	if isfile("Prob%s.scala"%j):
 		targets.append(j)
-
-proc = run(["scalac", "-classpath", "target/scala-2.12/classes", "-d", "target/scala-2.12/classes", "Util.scala"], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
 
 if argv[1] == "run":
 	if not exe(targets):
