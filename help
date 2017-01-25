@@ -65,6 +65,8 @@ for j in pretargets:
 	if isfile("Prob%s.scala"%j):
 		targets.append(j)
 
+proc = run(["scalac", "-classpath", "target/scala-2.12/classes", "-d", "target/scala-2.12/classes", "Util.scala"], stdout=PIPE, stderr=STDOUT, universal_newlines=True)
+
 if argv[1] == "run":
 	if not exe(targets):
 		exit(1)

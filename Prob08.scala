@@ -1,4 +1,4 @@
-import Prob03.toASCII
+import Util._
 
 object Prob08 {
   def main(args: Array[String]): Unit = {
@@ -6,7 +6,7 @@ object Prob08 {
     var maxident = 0
     var ecb = ""
     for (line ← lines) {
-      var ident = detectECBRepeats(line.getBytes)
+      val ident = detectECBRepeats(line.getBytes)
       if (ident > maxident) {
         maxident = ident
         ecb = line
@@ -17,10 +17,5 @@ object Prob08 {
     } else {
       println("Prob 08: Fail")
     }
-  }
-
-  def detectECBRepeats(str: Array[Byte]): Int = {
-    val blocks = str.grouped(16).toList.map(_.mkString)
-    blocks.size - blocks.toSet.size
   }
 }

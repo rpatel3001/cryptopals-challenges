@@ -1,7 +1,4 @@
-import Prob11.keygen
-import Prob10.encodeAESCBC
-import Prob10.decodeAESCBC
-import Prob15.unpadPKCS7
+import Util._
 import java.util.Base64
 
 object Prob17 {
@@ -61,10 +58,6 @@ object Prob17 {
     val iv = keygen
     val text = Base64.getDecoder.decode(scala.util.Random.shuffle(strings).head)
     (encodeAESCBC(text, globalkey, iv), iv)
-  }
-
-  def printByteArray(data: Array[Byte]): Unit = {
-    println(data.grouped(16).toArray.map(_.mkString).mkString(" "))
   }
 
   def validPadding(data: Array[Byte], iv: Array[Byte]): Boolean = {

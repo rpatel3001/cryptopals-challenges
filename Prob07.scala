@@ -1,7 +1,5 @@
 import java.util.Base64
-import javax.crypto.Cipher
-import javax.crypto.spec.SecretKeySpec;
-import Prob03.toASCII
+import Util._
 
 object Prob07 {
   def main(args: Array[String]): Unit = {
@@ -12,11 +10,5 @@ object Prob07 {
     } else {
       println("Prob 07: Fail")
     }
-  }
-
-  def decodeAESECB(str: Array[Byte], key: Array[Byte]): Array[Byte] = {
-    val cipher = Cipher.getInstance("AES/ECB/NoPadding")
-    cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(key, "AES"))
-    cipher.doFinal(str)
   }
 }

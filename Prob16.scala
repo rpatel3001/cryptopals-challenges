@@ -1,8 +1,4 @@
-import Prob11.keygen
-import Prob10.encodeAESCBC
-import Prob10.decodeAESCBC
-import Prob03.toASCII
-import Prob03.toASCII
+import Util._
 
 object Prob16 {
   def main(args: Array[String]): Unit = {
@@ -36,20 +32,6 @@ object Prob16 {
     cipher = bitflip(cipher, len - 8 * blocksize * blocknum + 8 * 9 + 2)
     cipher = bitflip(cipher, len - 8 * blocksize * blocknum + 8 * 15 + 1)
     cipher
-  }
-
-  def bitflip(data: Array[Byte], i: Int): Array[Byte] = {
-    val b = data.reverse.apply(i / 8) ^ (1 << (i % 8))
-    data.reverse.updated(i / 8, b.toByte).reverse
-  }
-
-  def byteToBinary(b: Byte): String = {
-    val str = b.toBinaryString
-    if (str.size == 32) {
-      str.slice(24, 32)
-    } else {
-      "0" * (8 - str.size) + str
-    }
   }
 
   var globalkey = keygen

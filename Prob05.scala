@@ -1,5 +1,4 @@
-import Prob03._
-import Prob02._
+import Util._
 
 object Prob05 {
   def main(args: Array[String]): Unit = {

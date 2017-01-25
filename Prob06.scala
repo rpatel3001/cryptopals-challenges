@@ -1,5 +1,4 @@
-import Prob02._
-import Prob03._
+import Util._
 import java.util.Base64
 
 object Prob06 {
@@ -55,28 +54,5 @@ object Prob06 {
       }
     }
     keytext
-  }
-
-  def breakXOR(bytes: Array[Byte], keysize: Int): (Int, Array[Byte], Double, String) = {
-    val blocks = bytes.grouped(keysize).toArray
-    val trans = collection.mutable.ArrayBuffer[Array[Byte]]()
-    for (i ← 0 until keysize) {
-      val s = collection.mutable.ArrayBuffer[Byte]()
-      for (b ← blocks) {
-        if (i < b.length) {
-          s.append(b(i))
-        }
-      }
-      trans.append(s.toArray)
-    }
-    val k = (for (b ← trans) yield {
-      decrypt(b)._1
-    }).slice(0, keysize).toArray
-    val plain = keyXOR(bytes, k)
-    (keysize, k, score(plain), toASCII(plain))
-  }
-
-  def hamming(str1: Array[Byte], str2: Array[Byte]): Int = {
-    BigInt(xor(str1, str2)).toString(2).count(_ == '1')
   }
 }

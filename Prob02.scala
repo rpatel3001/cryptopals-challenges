@@ -1,3 +1,5 @@
+import Util._
+
 object Prob02 {
   def main(args: Array[String]): Unit = {
     val hex1 = BigInt("1c0111001f010100061a024b53535009181c", 16).toByteArray
@@ -8,25 +10,5 @@ object Prob02 {
     } else {
       println("Prob 02: Fail")
     }
-  }
-
-  def toHex(str: Array[Byte]): String = {
-    str.map(byteToHex).mkString
-  }
-
-  def byteToHex(b: Byte): String = {
-    if (b < 0x10) {
-      "0" + b.toHexString
-    } else {
-      b.toHexString
-    }
-  }
-
-  def xor(val1: Array[Byte], val2: Array[Byte]): Array[Byte] = {
-    val ret = collection.mutable.ArrayBuffer[Byte]()
-    for (i ← 0 until Math.min(val1.size, val2.size)) {
-      ret.append((val1(i) ^ val2(i)).toByte)
-    }
-    ret.toArray
   }
 }

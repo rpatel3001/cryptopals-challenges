@@ -1,4 +1,4 @@
-import Prob03._
+import Util._
 
 object Prob04 {
   def main(args: Array[String]): Unit = {
@@ -6,7 +6,7 @@ object Prob04 {
     var text = ""
     for (l ← io.Source.fromFile("data4.txt").getLines()) {
       val line = BigInt(l, 16).toByteArray
-      val tmp = decrypt(line)
+      val tmp = decryptVignere(line)
       if (tmp._2 < min._2) {
         min = tmp
         text = toASCII(keyXOR(line, Array(tmp._1)))

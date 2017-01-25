@@ -1,5 +1,3 @@
-import Prob21._
-
 object Prob23 {
   def main(args: Array[String]): Unit = {
     val rng = new MT19937(13416)

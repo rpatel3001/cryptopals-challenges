@@ -1,3 +1,5 @@
+import Util._
+
 object Prob09 {
   def main(args: Array[String]) = {
     val orig = "YELLOW SUBMARINE".getBytes
@@ -8,10 +10,5 @@ object Prob09 {
     } else {
       println("Prob 09: Fail")
     }
-  }
-
-  def padPKCS7(str: Array[Byte], size: Int): Array[Byte] = {
-    val pad = size - str.size % size
-    str ++ (pad.toChar.toString * pad).getBytes
   }
 }

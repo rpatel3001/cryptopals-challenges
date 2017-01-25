@@ -1,6 +1,5 @@
 import java.util.Base64
-import Prob10.encodeAESECB
-import Prob02.xor
+import Util._
 
 object Prob18 {
   def main(args: Array[String]): Unit = {
@@ -12,13 +11,5 @@ object Prob18 {
     } else {
       println("Prob 18: Fail")
     }
-  }
-
-  def AESCTRTransform(data: Array[Byte], key: Array[Byte], nonce: Array[Byte]): Array[Byte] = {
-    data.grouped(16).zipWithIndex.map(c => xor(c._1, encodeAESECB(nonce ++ padCounter(BigInt(c._2).toByteArray).reverse, key))).flatten.toArray
-  }
-
-  def padCounter(ctr: Array[Byte]): Array[Byte] = {
-    Array.fill[Byte](8-ctr.size)(0) ++ ctr
   }
 }

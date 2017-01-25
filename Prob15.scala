@@ -1,3 +1,5 @@
+import Util._
+
 object Prob15 {
   def main(args: Array[String]): Unit = {
     val test1 = "ICE ICE BABY".getBytes ++ Array.fill[Byte](4)(4)
@@ -25,14 +27,5 @@ object Prob15 {
     } else {
       println("Prob 15: Fail")
     }
-  }
-
-  def unpadPKCS7(str: Array[Byte]): Array[Byte] = {
-    val pad = str.last
-    val padding = str.reverse.slice(0, pad)
-    if (pad <= 0 || pad > 16 && padding.size != pad || padding.count(_ != pad) > 0) {
-      throw new RuntimeException("bad padding")
-    }
-    str.dropRight(pad)
   }
 }

@@ -1,8 +1,5 @@
 import java.util.Base64
-import Prob18.AESCTRTransform
-import Prob11.keygen
-import Prob02.xor
-import Prob03.toASCII
+import Util._
 
 object Prob19 {
   def main(args: Array[String]): Unit = {

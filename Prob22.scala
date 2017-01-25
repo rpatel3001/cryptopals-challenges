@@ -1,5 +1,3 @@
-import Prob21._
-
 object Prob22 {
   def main(args: Array[String]): Unit = {
     for (i ← 1 to 100) {
